@@ -44,13 +44,13 @@ struct NewsAPI {
             
         // decode the data to NewsAPIResponse using json decoder
         case (200...299), (400...499):
-            let apiResponse = try! jsonDecoder.decode(NewsAPIResponse.self, from: data)
-            if apiResponse.status == "ok" {
+            let apiResponse = try? jsonDecoder.decode(NewsAPIResponse.self, from: data)
+            if apiResponse?.status == "ok" {
                 // exclude articles that have been deleted
-                let filteredResponse = apiResponse.articles?.filter { !$0.title.contains("[Removed]") }
+                let filteredResponse = apiResponse?.articles?.filter { !$0.title.contains("[Removed]") }
                 return filteredResponse ?? []
             } else {
-                throw generateErrore(description: apiResponse.message ?? "An error occured")
+                throw generateErrore(description: apiResponse?.message ?? "An error occured")
             }
         default:
             // for 5x errors - internal server error
