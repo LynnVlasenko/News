@@ -55,3 +55,22 @@ struct Article: Codable, Equatable, Identifiable {
 struct Source: Codable, Equatable {
     let name: String
 }
+
+// to show the mock data on the canvas 
+extension Article {
+    
+    // for the preview data (this is the stops) - aareay of articles
+    static var previewData: [Article] {
+        // get the Url for JSON in our Bundle
+        let previewDataURL =
+        Bundle.main.url(forResource: "news", withExtension: "json")!
+        let data = try! Data(contentsOf: previewDataURL)
+        
+        let jsonDecoder = JSONDecoder()
+        jsonDecoder.dateDecodingStrategy = .iso8601 // to resave data to Swift format
+        
+        //api response to get data from API
+        let apiResponse = try! jsonDecoder.decode(NewsAPIResponse.self, from: data)
+        return apiResponse.articles ?? []
+    }
+}

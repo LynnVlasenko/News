@@ -17,6 +17,7 @@
 		6C6680072C230C1B00B7700A /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6680062C230C1B00B7700A /* Category.swift */; };
 		6C66800A2C23214F00B7700A /* MainArticlesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6680092C23214F00B7700A /* MainArticlesViewModel.swift */; };
 		6C66800C2C2326BD00B7700A /* MainArticlesTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C66800B2C2326BD00B7700A /* MainArticlesTabView.swift */; };
+		6C66800F2C233C1700B7700A /* news.json in Resources */ = {isa = PBXBuildFile; fileRef = 6C66800E2C233C1700B7700A /* news.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,8 @@
 		6C6680062C230C1B00B7700A /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		6C6680092C23214F00B7700A /* MainArticlesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainArticlesViewModel.swift; sourceTree = "<group>"; };
 		6C66800B2C2326BD00B7700A /* MainArticlesTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainArticlesTabView.swift; sourceTree = "<group>"; };
+		6C66800D2C23384500B7700A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6C66800E2C233C1700B7700A /* news.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = news.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,6 +122,8 @@
 			isa = PBXGroup;
 			children = (
 				6C667FEA2C22F57B00B7700A /* Assets.xcassets */,
+				6C66800D2C23384500B7700A /* Info.plist */,
+				6C66800E2C233C1700B7700A /* news.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -215,6 +220,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6C66800F2C233C1700B7700A /* news.json in Resources */,
 				6C667FEE2C22F57B00B7700A /* Preview Assets.xcassets in Resources */,
 				6C667FEB2C22F57B00B7700A /* Assets.xcassets in Resources */,
 			);
@@ -371,6 +377,7 @@
 				DEVELOPMENT_TEAM = 5G9A582T98;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = News/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -401,6 +408,7 @@
 				DEVELOPMENT_TEAM = 5G9A582T98;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = News/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
