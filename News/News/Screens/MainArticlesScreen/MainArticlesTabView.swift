@@ -7,20 +7,96 @@
 
 import SwiftUI
 
-struct NewsTabView: View {
+struct MainArticlesTabView: View {
     
-    @StateObject var articleNewsVM = ArticleNewsViewModel()
+    @StateObject var mainArticlesVM = MainArticlesViewModel()
     
     var body: some View {
         
         NavigationView {
-            VStack {
-                // check we get the data from API
-            }.task(id: articleNewsVM.selectedCategory, loadTask)
+            ArticleListView(articles: articles)
+                // to show the different stages of the loading screen
+                .overlay(overlayView)
+            
+                // load the data from API
+                .task(id: mainArticlesVM.fetchTaskToken, loadTask)
+                
+                // pull to refresh functionality to update articles by swiping down
+                .refreshable(action: refreshTask)
+            
+                .navigationTitle(mainArticlesVM.fetchTaskToken.category.text)
+                .navigationBarItems(trailing: menu)
         }
     }
     
+    // MARK: - articles array
+    // get the articles from success phase
+    private var articles: [Article] {
+        if case .success(let articles) = mainArticlesVM.phase {
+            return articles
+        } else {
+            return []
+        }
+    }
+    
+    // MARK: - return appropriate view depending on the phase
+    @ViewBuilder // A custom parameter attribute that constructs views from closures
+    private var overlayView: some View {
+       
+        switch mainArticlesVM.phase {
+            
+        case .empty:
+            ProgressView()
+            
+            // show the PlaceholderView if we don't have any articles
+        case .success(let articles) where articles.isEmpty: EmptyPlaceholderView(text: "No Article received", image: Image(systemName: "doc.questionmark"))
+        
+        case .failure(let error):
+            // the screen for trying to repeat the API request
+            RetryView(text: error.localizedDescription, retryAction: refreshTask)
+        
+        default: EmptyView()
+        }
+    }
+    
+    // MARK: - menu for the categories
+    private var menu: some View {
+        
+        Menu {
+            //Such us Category model is CaseIterable - we use allCases method to get array of cases + use tag
+            Picker("Category", selection: $mainArticlesVM.fetchTaskToken.category) {
+                ForEach(Category.allCases) {
+                    Text($0.text).tag($0)
+                }
+            }
+        } label: {
+            Image(systemName: "line.3.horizontal.decrease")
+                .imageScale(.large)
+                .tint(Color.cyan)
+        }
+    }
+    
+    // MARK: - Actions
+    // fetch the articles from the API
+    @Sendable
     private func loadTask() async {
-        await articleNewsVM.loadArticles()
+        await mainArticlesVM.loadArticles()
+    }
+    
+    // refresh action for refreshable
+    @Sendable
+    private func refreshTask() {
+        DispatchQueue.main.async {
+            mainArticlesVM.fetchTaskToken = FetchTaskToken(
+                category: mainArticlesVM.fetchTaskToken.category,
+                token: Date())
+        }
+    }
+}
+
+struct NewsTabView_Previews: PreviewProvider {
+    
+    static var previews: some View {
+        MainArticlesTabView(mainArticlesVM: MainArticlesViewModel(articles: Article.previewData))
     }
 }
