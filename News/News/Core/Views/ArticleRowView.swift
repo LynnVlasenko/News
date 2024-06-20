@@ -47,7 +47,7 @@ struct ArticleRowView: View {
                     .frame(minHeight: 200, maxHeight: 300)
                 }
             }
-            .background(Color.gray.opacity(0.3))
+            .background(Color.gray.opacity(0.2))
             .clipped()
             
             VStack(alignment: .leading, spacing: 8) {
@@ -88,6 +88,7 @@ struct ArticleRowView: View {
         .background(Color.init(uiColor: .secondarySystemBackground))
         .border(Color.init(uiColor: .secondarySystemBackground))
         .cornerRadius(25)
+        Spacer()
     }
 }
 

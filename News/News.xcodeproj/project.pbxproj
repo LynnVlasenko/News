@@ -19,6 +19,7 @@
 		6C66800C2C2326BD00B7700A /* MainArticlesTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C66800B2C2326BD00B7700A /* MainArticlesTabView.swift */; };
 		6C66800F2C233C1700B7700A /* news.json in Resources */ = {isa = PBXBuildFile; fileRef = 6C66800E2C233C1700B7700A /* news.json */; };
 		6C6680122C244B9B00B7700A /* ArticleRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6680112C244B9B00B7700A /* ArticleRowView.swift */; };
+		6C6680142C24530C00B7700A /* ArticleListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6680132C24530C00B7700A /* ArticleListView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		6C66800D2C23384500B7700A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6C66800E2C233C1700B7700A /* news.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = news.json; sourceTree = "<group>"; };
 		6C6680112C244B9B00B7700A /* ArticleRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleRowView.swift; sourceTree = "<group>"; };
+		6C6680132C24530C00B7700A /* ArticleListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleListView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -169,6 +171,7 @@
 			isa = PBXGroup;
 			children = (
 				6C6680112C244B9B00B7700A /* ArticleRowView.swift */,
+				6C6680132C24530C00B7700A /* ArticleListView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -245,6 +248,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6C6680032C230BD200B7700A /* Article.swift in Sources */,
+				6C6680142C24530C00B7700A /* ArticleListView.swift in Sources */,
 				6C6680122C244B9B00B7700A /* ArticleRowView.swift in Sources */,
 				6C66800A2C23214F00B7700A /* MainArticlesViewModel.swift in Sources */,
 				6C66800C2C2326BD00B7700A /* MainArticlesTabView.swift in Sources */,
