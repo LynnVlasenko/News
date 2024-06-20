@@ -75,7 +75,7 @@ struct ArticleRowView: View {
                     .tint(Color.cyan)
                     
                     Button {
-                        
+                        presentShareSheet(url: article.articleURL)
                     } label: {
                         Image(systemName: "square.and.arrow.up")
                     }
