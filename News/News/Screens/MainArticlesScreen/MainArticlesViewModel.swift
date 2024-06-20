@@ -14,12 +14,18 @@ enum DataFetchPhase<T> {
     case failure(Error)
 }
 
+// fetch Task Token to trigger the task update with the current date to fetch a new data request
+struct FetchTaskToken: Equatable {
+    var category: Category
+    var token: Date
+}
+
 // MainActor - a singleton actor whose executor is equivalent to the main dispatch queue.
 @MainActor
 class MainArticlesViewModel: ObservableObject {
     
     @Published var phase = DataFetchPhase<[Article]>.empty
-    @Published var selectedCategory: Category
+    @Published var fetchTaskToken: FetchTaskToken
     
     private let newsAPI = NewsAPI.shared
     
@@ -31,7 +37,7 @@ class MainArticlesViewModel: ObservableObject {
             self.phase = .empty
         }
         
-        self.selectedCategory = selectedCategory
+        self.fetchTaskToken = FetchTaskToken(category: selectedCategory, token: Date())
     }
     
     // load the data fron API
@@ -41,7 +47,7 @@ class MainArticlesViewModel: ObservableObject {
         phase = .empty
         
         do {
-            let articles = try await newsAPI.fetch(from: selectedCategory)
+            let articles = try await newsAPI.fetch(from: fetchTaskToken.category)
             if Task.isCancelled { return }
             phase = .success(articles)
         } catch {
