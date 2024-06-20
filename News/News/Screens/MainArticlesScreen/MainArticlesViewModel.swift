@@ -16,7 +16,7 @@ enum DataFetchPhase<T> {
 
 // MainActor - a singleton actor whose executor is equivalent to the main dispatch queue.
 @MainActor
-class ArticleNewsViewModel: ObservableObject {
+class MainArticlesViewModel: ObservableObject {
     
     @Published var phase = DataFetchPhase<[Article]>.empty
     @Published var selectedCategory: Category
