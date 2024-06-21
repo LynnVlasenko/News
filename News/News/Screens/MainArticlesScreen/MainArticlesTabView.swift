@@ -96,7 +96,10 @@ struct MainArticlesTabView: View {
 
 struct NewsTabView_Previews: PreviewProvider {
     
+    @StateObject static var bookmarkedArticlesVM = BookmarkedArticlesViewModel()
+    
     static var previews: some View {
         MainArticlesTabView(mainArticlesVM: MainArticlesViewModel(articles: Article.previewData))
+            .environmentObject(bookmarkedArticlesVM)
     }
 }
