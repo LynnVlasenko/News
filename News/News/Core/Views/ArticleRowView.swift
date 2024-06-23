@@ -9,6 +9,9 @@ import SwiftUI
 
 struct ArticleRowView: View {
     
+    // To retrieve the object(get it in NewsApp) in a subview,  use the ``EnvironmentObject`` property wrapper.
+    @EnvironmentObject var bookmarkedArticlesVM: BookmarkedArticlesViewModel
+    
     let article: Article
     
     var body: some View {
@@ -67,9 +70,12 @@ struct ArticleRowView: View {
                     Spacer()
                     
                     Button {
-                        
+                        toggleBookmark(for: article)
                     } label: {
-                        Image(systemName: "bookmark")
+                        Image(systemName:
+                                bookmarkedArticlesVM.isBookmarked(for: article)
+                              ? "bookmark.fill"
+                              : "bookmark")
                     }
                     .buttonStyle(.bordered)
                     .tint(Color.cyan)
@@ -90,9 +96,21 @@ struct ArticleRowView: View {
         .cornerRadius(25)
         Spacer()
     }
+    
+    // MARK: - Actions
+    
+    private func toggleBookmark(for article: Article) {
+        if bookmarkedArticlesVM.isBookmarked(for: article) {
+            bookmarkedArticlesVM.removeBookmark(for: article)
+        } else {
+            bookmarkedArticlesVM.addBookmark(for: article)
+        }
+    }
 }
 
 struct ArticleRowView_Previews: PreviewProvider {
+    
+    @StateObject static var bookmarkedArticlesVM = BookmarkedArticlesViewModel()
 
     static var previews: some View {
         NavigationView {
@@ -102,5 +120,6 @@ struct ArticleRowView_Previews: PreviewProvider {
             }
             .listStyle(.plain)
         }
+        .environmentObject(bookmarkedArticlesVM)
     }
 }
