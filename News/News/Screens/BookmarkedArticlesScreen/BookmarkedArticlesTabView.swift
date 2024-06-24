@@ -13,14 +13,29 @@ struct BookmarkTabView: View {
     
     @State var searchText: String = ""
     
+    private var articles: [Article] {
+        
+        if searchText.isEmpty {
+            return bookmarkedArticlesVM.bookmarks
+        }
+        return bookmarkedArticlesVM.bookmarks
+            .filter {
+                $0.title.lowercased().contains(searchText.lowercased()) ||
+                $0.descriptionText.lowercased().contains(searchText.lowercased())
+            }
+    }
+    
     var body: some View {
+        
+        let articles = self.articles
         
         NavigationView {
            
-            ArticleListView(articles: bookmarkedArticlesVM.bookmarks)
-                .overlay(overlayView(isEmpty: bookmarkedArticlesVM.bookmarks.isEmpty))
+            ArticleListView(articles: articles)
+                .overlay(overlayView(isEmpty: articles.isEmpty))
                 .navigationTitle("Saved Articles")
         }
+        .searchable(text: $searchText)
     }
     
     @ViewBuilder // A custom parameter attribute that constructs views from closures.
