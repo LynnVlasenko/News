@@ -23,11 +23,18 @@ struct NewsAPI {
         return decoder
     }()
     
+    // MARK: - GET from API by categories, by search
     // to fetch data from API by categories
     func fetch(from category: Category) async throws -> [Article] {
         try await fetchArticles(from: generateNewsURL(from: category))
     }
     
+    // to fetch data from API by search
+    func search(for query: String) async throws -> [Article] {
+        try await fetchArticles(from: generateSearchURL(from: query))
+    }
+    
+    // MARK: - GET from API - general func
     // to get the data from API to the model
     private func fetchArticles(from url: URL) async throws -> [Article] {
         
@@ -58,17 +65,29 @@ struct NewsAPI {
         }
     }
     
+    // MARK: - Error description
     // helper method for the error description
     private func generateErrore(code: Int = 1, description: String) -> Error {
         NSError(domain: "NewsAPI", code: code, userInfo: [NSLocalizedDescriptionKey: description])
     }
     
+    // MARK: - URLs
     // to generate URLs for the categories
     private func generateNewsURL(from category: Category) -> URL {
         var url = "https://newsapi.org/v2/top-headlines?"
         url += "apiKey=\(apiKey)"
         url += "&language=en"
         url += "&category=\(category.rawValue)" // передаємо в посилання категорію, його назву як значення стрінги rawValue
+        return URL(string: url)!
+    }
+    
+    // to generate URLs for the search word
+    private func generateSearchURL(from query: String) -> URL {
+        let percentEncodedString = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? query
+        var url = "https://newsapi.org/v2/everything?"
+        url += "apiKey=\(apiKey)"
+        url += "&language=en"
+        url += "&q=\(percentEncodedString)"
         return URL(string: url)!
     }
 }
