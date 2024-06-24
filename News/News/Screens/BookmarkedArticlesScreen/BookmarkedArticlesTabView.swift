@@ -35,7 +35,7 @@ struct BookmarkTabView: View {
 
 struct BookmarkTabView_Previews: PreviewProvider {
     
-    @StateObject static var bookmarkedArticlesVM = BookmarkedArticlesViewModel()
+    @StateObject static var bookmarkedArticlesVM = BookmarkedArticlesViewModel.shared
 
     static var previews: some View {
         BookmarkTabView()
