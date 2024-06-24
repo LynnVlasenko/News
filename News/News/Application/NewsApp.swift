@@ -11,7 +11,7 @@ import SwiftUI
 struct NewsApp: App {
     
     // create initialisation of articleBookmarkVM to get it to the environmentObject
-    @StateObject var bookmarkedArticlesVM = BookmarkedArticlesViewModel()
+    @StateObject var bookmarkedArticlesVM = BookmarkedArticlesViewModel.shared
     
     var body: some Scene {
         WindowGroup {

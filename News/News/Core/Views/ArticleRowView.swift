@@ -24,7 +24,8 @@ struct ArticleRowView: View {
                 case .empty:
                     HStack {
                         Spacer()
-                        ProgressView()
+                        Image(systemName: "photo.fill")
+                            .imageScale(.large)
                         Spacer()
                     }
                     .frame(minHeight: 200, maxHeight: 300)
@@ -110,7 +111,7 @@ struct ArticleRowView: View {
 
 struct ArticleRowView_Previews: PreviewProvider {
     
-    @StateObject static var bookmarkedArticlesVM = BookmarkedArticlesViewModel()
+    @StateObject static var bookmarkedArticlesVM = BookmarkedArticlesViewModel.shared
 
     static var previews: some View {
         NavigationView {

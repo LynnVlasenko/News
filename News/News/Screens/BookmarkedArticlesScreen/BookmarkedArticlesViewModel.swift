@@ -12,6 +12,33 @@ class BookmarkedArticlesViewModel: ObservableObject {
     
     @Published private(set) var bookmarks: [Article] = []
     
+    private let bookmarkStore = PlistDataStore<[Article]>(filename: "bookmarks")
+    
+    static let shared = BookmarkedArticlesViewModel()
+    
+    private init() {
+        Task.init {
+            await load()
+        }
+    }
+    
+    // MARK: - data store actions
+    
+    private func load() async {
+        
+        bookmarks = await bookmarkStore.load() ?? []
+    }
+    
+    private func bookmarkUpdated() {
+        
+        let bookmarks = self.bookmarks
+        Task.init {
+            await bookmarkStore.save(bookmarks)
+        }
+    }
+    
+    // MARK: - bookmark button actions
+    
     // check if the article is bookmarked
     func isBookmarked(for article: Article) -> Bool {
         
@@ -25,6 +52,7 @@ class BookmarkedArticlesViewModel: ObservableObject {
             return
         }
         bookmarks.insert(article, at: 0)
+        bookmarkUpdated()
     }
     
     // delete from list of bookmarked articles
@@ -34,5 +62,6 @@ class BookmarkedArticlesViewModel: ObservableObject {
             return
         }
         bookmarks.remove(at: index)
+        bookmarkUpdated()
     }
 }

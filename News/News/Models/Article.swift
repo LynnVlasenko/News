@@ -12,8 +12,8 @@ fileprivate let relativeDateFormatter = RelativeDateTimeFormatter()
 
 struct Article: Codable, Equatable, Identifiable {
     
-    // create id as UUID - The API does not provide ids
-    var id = UUID()
+    // create id as a unique url
+    var id: String { url }
     
     let source: Source
     
@@ -24,16 +24,6 @@ struct Article: Codable, Equatable, Identifiable {
     let author: String?
     let description: String?
     let urlToImage: String?
-    
-    enum CodingKeys: String, CodingKey {
-            case source
-            case title
-            case url
-            case publishedAt
-            case author
-            case description
-            case urlToImage
-        }
     
     // unwrap the optionals
     var authorText: String {
