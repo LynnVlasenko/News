@@ -43,19 +43,20 @@ class MainArticlesViewModel: ObservableObject {
     // load the data fron API
     func loadArticles() async {
         // add moke data to avoid making requests to the api every time during development
-        phase = .success(Article.previewData)
+        //phase = .success(Article.previewData)
+        
         // censel case for the Task
-//        if Task.isCancelled { return }
-//        phase = .empty
-//        
-//        do {
-//            let articles = try await newsAPI.fetch(from: fetchTaskToken.category)
-//            if Task.isCancelled { return }
-//            phase = .success(articles)
-//        } catch {
-//            if Task.isCancelled { return }
-//            print(error.localizedDescription)
-//            phase = .failure(error)
-//        }
+        if Task.isCancelled { return }
+        phase = .empty
+        
+        do {
+            let articles = try await newsAPI.fetch(from: fetchTaskToken.category)
+            if Task.isCancelled { return }
+            phase = .success(articles)
+        } catch {
+            if Task.isCancelled { return }
+            print(error.localizedDescription)
+            phase = .failure(error)
+        }
     }
 }
