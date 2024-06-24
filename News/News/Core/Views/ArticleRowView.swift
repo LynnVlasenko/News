@@ -30,9 +30,11 @@ struct ArticleRowView: View {
                     }
                     .frame(minHeight: 200, maxHeight: 300)
                 case .success(let image):
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
+                    GeometryReader { geometry in
+                        image
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                    }
                 case .failure:
                     HStack {
                         Spacer()
@@ -51,8 +53,9 @@ struct ArticleRowView: View {
                     .frame(minHeight: 200, maxHeight: 300)
                 }
             }
-            .background(Color.gray.opacity(0.2))
+            .background(Color.cyan.opacity(0.1))
             .clipped()
+            .frame(minHeight: 200, maxHeight: 300)
             
             VStack(alignment: .leading, spacing: 8) {
                 Text(article.title)
@@ -90,7 +93,7 @@ struct ArticleRowView: View {
                     .tint(Color.cyan)
                 }
             }
-                .padding([.horizontal, .bottom])
+            .padding([.horizontal, .bottom])
         }
         .background(Color.init(uiColor: .secondarySystemBackground))
         .border(Color.init(uiColor: .secondarySystemBackground))
