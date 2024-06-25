@@ -25,8 +25,8 @@ struct NewsAPI {
     
     // MARK: - GET from API by categories, by search
     // to fetch data from API by categories
-    func fetch(from category: Category) async throws -> [Article] {
-        try await fetchArticles(from: generateNewsURL(from: category))
+    func fetch(from category: Category, page: Int = 1, pageSize: Int = 20) async throws -> [Article] {
+        try await fetchArticles(from: generateNewsURL(from: category, page: page, pageSize: pageSize))
     }
     
     // to fetch data from API by search
@@ -73,11 +73,13 @@ struct NewsAPI {
     
     // MARK: - URLs
     // to generate URLs for the categories
-    private func generateNewsURL(from category: Category) -> URL {
+    private func generateNewsURL(from category: Category, page: Int = 1, pageSize: Int = 20) -> URL {
         var url = "https://newsapi.org/v2/top-headlines?"
         url += "apiKey=\(apiKey)"
         url += "&language=en"
-        url += "&category=\(category.rawValue)" // передаємо в посилання категорію, його назву як значення стрінги rawValue
+        url += "&category=\(category.rawValue)"
+        url += "&page=\(page)"
+        url += "&pageSize=\(pageSize)"
         return URL(string: url)!
     }
     
