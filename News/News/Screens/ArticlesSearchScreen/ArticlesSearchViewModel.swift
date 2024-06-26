@@ -10,7 +10,7 @@ import SwiftUI
 @MainActor
 class ArticlesSearchViewModel: ObservableObject {
     
-    @Published var phase: DataFetchPhase<[Article]> = .empty
+    @Published var phase = DataFetchPhase<[Article]>.empty
     @Published var searchQuery = ""
     @Published var history = [String]()
     private let historyDataStore = PlistDataStore<[String]>(filename: "histories")
@@ -21,25 +21,39 @@ class ArticlesSearchViewModel: ObservableObject {
         load()
     }
     
+    private let pagingData = PagingData(itemsPerPage: 25, maxPageLimit: 4)
+
+    var articles: [Article] {
+        phase.value ?? []
+    }
+
+    var isFetchingNextPage: Bool {
+        if case .fetchingNextPage = phase {
+            return true
+        }
+        return false
+    }
+    
     private let historyMaxLimit = 10
     
     private let newsAPI = NewsAPI.shared
     
-    // MARK: - Search method
-    func searchArticle() async {
+    
+    // MARK: - Search methods to show articles with pagination
+    
+    func searchFirstPageArticles() async {
         
         if Task.isCancelled { return }
-        
         let searchQuery = self.searchQuery.trimmingCharacters(in: .whitespacesAndNewlines)
        
         phase = .empty
         
-        if searchQuery.isEmpty {
-            return
-        }
+        if searchQuery.isEmpty { return }
         
         do {
-            let articles = try await newsAPI.search(for: searchQuery)
+            await pagingData.reset()
+            
+            let articles = try await pagingData.loadNextPage(dataFetchProvider: loadArticles(page:))
             
             if Task.isCancelled { return }
             if searchQuery != self.searchQuery { return }
@@ -52,6 +66,37 @@ class ArticlesSearchViewModel: ObservableObject {
             
             phase = .failure(error)
         }
+    }
+    
+    
+    func loadNextPage() async {
+        
+        if Task.isCancelled { return }
+        
+        let articles = self.phase.value ?? []
+        phase = .fetchingNextPage(articles)
+        
+        do {
+            let nextArticles = try await pagingData.loadNextPage(dataFetchProvider: loadArticles(page:))
+            if Task.isCancelled { return }
+            
+            phase = .success(articles + nextArticles)
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    // load the data from API
+    private func loadArticles(page: Int) async throws -> [Article] {
+        let searchQuery = self.searchQuery.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        let articles = try await newsAPI.search(
+            for: searchQuery,
+            page: page,
+            pageSize: pagingData.itemsPerPage)
+        
+        if Task.isCancelled { return [] }
+        return articles
     }
     
     // MARK: - History methods

@@ -12,15 +12,26 @@ struct ArticleListView: View {
     let articles: [Article]
     @State private var selectedArticle: Article?
     
+    var isFetchingNextPage = false
+    var nextPageHandler: (() async -> ())? = nil
+    
     var body: some View {
         List {
             // return the view for each row in the list
             ForEach(articles) { article in
-                ArticleRowView(article: article)
-                    // pass the clicked article
-                    .onTapGesture {
-                        selectedArticle = article
+                
+                if let nextPageHandler = nextPageHandler, article == articles.last {
+                    
+                    listRowView(for: article)
+                        .task { await nextPageHandler() }
+                    
+                    if isFetchingNextPage {
+                        bottomProgressView
                     }
+                    
+                } else {
+                    listRowView(for: article)
+                }
             }
             .listRowInsets(.init(top: 0, leading: 16, bottom: 0, trailing: 16))
             .listRowSeparator(.hidden)
@@ -31,6 +42,25 @@ struct ArticleListView: View {
             }
         }
         .listStyle(.plain)
+    }
+    
+    @ViewBuilder
+    private var bottomProgressView: some View {
+        Divider()
+        HStack {
+            Spacer()
+            ProgressView()
+            Spacer()
+        }.padding()
+    }
+    
+    @ViewBuilder
+    private func listRowView(for article: Article) -> some View {
+        ArticleRowView(article: article)
+            // pass the clicked article
+            .onTapGesture {
+                selectedArticle = article
+            }
     }
 }
 

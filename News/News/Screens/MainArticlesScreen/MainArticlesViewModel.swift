@@ -7,13 +7,6 @@
 
 import SwiftUI
 
-//  statuses of receiving data from the API
-enum DataFetchPhase<T> {
-    case empty
-    case success(T)
-    case failure(Error)
-}
-
 // fetch Task Token to trigger the task update with the current date to fetch a new data request
 struct FetchTaskToken: Equatable {
     var category: Category
@@ -28,7 +21,20 @@ class MainArticlesViewModel: ObservableObject {
     @Published var fetchTaskToken: FetchTaskToken
     
     private let newsAPI = NewsAPI.shared
+    private let pagingData = PagingData(itemsPerPage: 10, maxPageLimit: 10)
     
+    var articles: [Article] {
+        phase.value ?? []
+    }
+    
+    var isFetchingNextPage: Bool {
+        if case .fetchingNextPage = phase {
+            return true
+        }
+        return false
+    }
+    
+    // MARK: - init
     init(articles: [Article]? = nil, selectedCategory: Category = .general) {
         
         if let articles = articles {
@@ -40,17 +46,20 @@ class MainArticlesViewModel: ObservableObject {
         self.fetchTaskToken = FetchTaskToken(category: selectedCategory, token: Date())
     }
     
-    // load the data fron API
-    func loadArticles() async {
-        // add moke data to avoid making requests to the api every time during development
-        //phase = .success(Article.previewData)
+    // MARK: - load actions
+    // load the first page from API
+    func loadFirstPage() async {
         
-        // censel case for the Task
         if Task.isCancelled { return }
+        
         phase = .empty
         
         do {
-            let articles = try await newsAPI.fetch(from: fetchTaskToken.category)
+            // reset data to first page
+            await pagingData.reset()
+            
+            // updating currentPage to next page to fetch new page
+            let articles = try await pagingData.loadNextPage(dataFetchProvider: loadArticles(page:))
             if Task.isCancelled { return }
             phase = .success(articles)
         } catch {
@@ -58,5 +67,33 @@ class MainArticlesViewModel: ObservableObject {
             print(error.localizedDescription)
             phase = .failure(error)
         }
+    }
+    
+    // load the next page from API
+    func loadNextPage() async {
+        
+        if Task.isCancelled { return }
+        
+        let articles = self.phase.value ?? []
+        phase = .fetchingNextPage(articles)
+        
+        do {
+            let nextArticles = try await pagingData.loadNextPage(dataFetchProvider: loadArticles(page:))
+            if Task.isCancelled { return }
+            
+            phase = .success(articles + nextArticles)
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    // load the data from API
+    private func loadArticles(page: Int) async throws -> [Article] {
+        let articles = try await newsAPI.fetch(
+            from: fetchTaskToken.category,
+            page: page,
+            pageSize: pagingData.itemsPerPage)
+        if Task.isCancelled { return [] }
+        return articles
     }
 }

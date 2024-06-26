@@ -14,7 +14,10 @@ struct MainArticlesTabView: View {
     var body: some View {
         
         NavigationView {
-            ArticleListView(articles: articles)
+            
+            ArticleListView(articles: mainArticlesVM.articles,
+                            isFetchingNextPage: mainArticlesVM.isFetchingNextPage,
+                            nextPageHandler: { await mainArticlesVM.loadNextPage() })
                 // to show the different stages of the loading screen
                 .overlay(overlayView)
             
@@ -26,16 +29,6 @@ struct MainArticlesTabView: View {
             
                 .navigationTitle(mainArticlesVM.fetchTaskToken.category.text)
                 .navigationBarItems(trailing: menu)
-        }
-    }
-    
-    // MARK: - articles array
-    // get the articles from success phase
-    private var articles: [Article] {
-        if case .success(let articles) = mainArticlesVM.phase {
-            return articles
-        } else {
-            return []
         }
     }
     
@@ -80,7 +73,7 @@ struct MainArticlesTabView: View {
     // fetch the articles from the API
     @Sendable
     private func loadTask() async {
-        await mainArticlesVM.loadArticles()
+        await mainArticlesVM.loadFirstPage()
     }
     
     // refresh action for refreshable
