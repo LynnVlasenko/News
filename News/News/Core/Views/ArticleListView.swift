@@ -12,7 +12,6 @@ struct ArticleListView: View {
     let articles: [Article]
     @State private var selectedArticle: Article?
     
-    // властивість отримання наступної сторінку
     var isFetchingNextPage = false
     var nextPageHandler: (() async -> ())? = nil
     
@@ -20,13 +19,12 @@ struct ArticleListView: View {
         List {
             // return the view for each row in the list
             ForEach(articles) { article in
-                // якщо значення nextPageHandler існує і параметр article дорівнює останній статті, то це означає, що це нижня частина списку
+                
                 if let nextPageHandler = nextPageHandler, article == articles.last {
-                    // в цьому випадку передаємо рядок (який ми винесли у окрему функцію)
+                    
                     listRowView(for: article)
-                    // далі передаємо таск модіфаєр, який тригериватиметься, коли з'явиться останнє подання на екрані
                         .task { await nextPageHandler() }
-                    // далі потрібно перевірити, що isFetchingNextPage є тру і передаємо тут прогрес бар, щоб відобразити, коли заваннтажується ннова пачка статей
+                    
                     if isFetchingNextPage {
                         bottomProgressView
                     }

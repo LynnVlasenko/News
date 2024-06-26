@@ -14,7 +14,7 @@ struct MainArticlesTabView: View {
     var body: some View {
         
         NavigationView {
-            // додаємо тут в ініціалізацію ArticleListView два параметра: isFetchingNextPage - передаємо з вью моделі і прописуємо для nextPageHandler - в ньому передаємо з вью моделі функцію, що завантажує наступний перегляд
+            
             ArticleListView(articles: mainArticlesVM.articles,
                             isFetchingNextPage: mainArticlesVM.isFetchingNextPage,
                             nextPageHandler: { await mainArticlesVM.loadNextPage() })
