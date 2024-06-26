@@ -30,8 +30,8 @@ struct NewsAPI {
     }
     
     // to fetch data from API by search
-    func search(for query: String) async throws -> [Article] {
-        try await fetchArticles(from: generateSearchURL(from: query))
+    func search(for query: String, page: Int = 1, pageSize: Int = 20) async throws -> [Article] {
+        try await fetchArticles(from: generateSearchURL(from: query, page: page, pageSize: pageSize))
     }
     
     // MARK: - GET from API - general func
@@ -84,12 +84,16 @@ struct NewsAPI {
     }
     
     // to generate URLs for the search word
-    private func generateSearchURL(from query: String) -> URL {
+    private func generateSearchURL(from query: String, page: Int = 1, pageSize: Int = 100) -> URL {
         let percentEncodedString = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? query
         var url = "https://newsapi.org/v2/everything?"
         url += "apiKey=\(apiKey)"
         url += "&language=en"
         url += "&q=\(percentEncodedString)"
+        url += "&searchIn=title"
+        url += "&sortBy=publishedAt"
+        url += "&page=\(page)"
+        url += "&pageSize=\(pageSize)"
         return URL(string: url)!
     }
 }

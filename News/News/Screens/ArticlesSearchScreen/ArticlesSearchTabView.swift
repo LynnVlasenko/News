@@ -11,19 +11,12 @@ struct SearchTabView: View {
     
     @StateObject var searchVM = ArticlesSearchViewModel.shared
     
-    private var articles: [Article] {
-        
-        if case .success(let articles) = searchVM.phase {
-            return articles
-        } else {
-            return []
-        }
-    }
-    
     var body: some View {
         NavigationView {
             
-            ArticleListView(articles: articles)
+            ArticleListView(articles: searchVM.articles,
+                            isFetchingNextPage: searchVM.isFetchingNextPage,
+                            nextPageHandler: { await searchVM.loadNextPage() })
                 .overlay(overlayView)
                 .navigationTitle("Search")
         }
@@ -70,7 +63,7 @@ struct SearchTabView: View {
         }
         
         Task.init {
-            await searchVM.searchArticle()
+            await searchVM.searchFirstPageArticles()
         }
     }
 }
