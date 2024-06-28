@@ -13,7 +13,7 @@ class ArticlesSearchViewModel: ObservableObject {
     @Published var phase = DataFetchPhase<[Article]>.empty
     @Published var searchQuery = ""
     @Published var history = [String]()
-    private let historyDataStore = PlistDataStore<[String]>(filename: "histories")
+    private let historyDataStore = PlistDataStore<[String]>(filename: Constant.historyStoreFilename)
     
     static let shared = ArticlesSearchViewModel()
     

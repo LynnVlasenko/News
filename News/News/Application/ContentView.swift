@@ -12,17 +12,20 @@ struct ContentView: View {
         TabView {
             MainArticlesTabView()
                 .tabItem {
-                    Label("News", systemImage: "newspaper")
+                    Label(Constant.mainScreenLbl,
+                          systemImage: Constant.mainScreenIcon)
                 }
             
             SearchTabView()
                 .tabItem {
-                    Label("Search", systemImage: "doc.text.magnifyingglass")
+                    Label(Constant.searchScreenLbl,
+                          systemImage: Constant.searchScreenIcon)
                 }
             
             BookmarkTabView()
                 .tabItem {
-                    Label("Saved", systemImage: "bookmark")
+                    Label(Constant.bookmarkScreenLbl,
+                          systemImage: Constant.bookmarkIcon)
                 }
         }
         .tint(Color.cyan)

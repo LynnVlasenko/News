@@ -33,7 +33,7 @@ struct BookmarkTabView: View {
            
             ArticleListView(articles: articles)
                 .overlay(overlayView(isEmpty: articles.isEmpty))
-                .navigationTitle("Saved Articles")
+                .navigationTitle(Constant.bookmarkScreenTitle)
         }
         .searchable(text: $searchText)
     }
@@ -42,7 +42,7 @@ struct BookmarkTabView: View {
     //You typically use ViewBuilder as a parameter attribute for child view-producing closure parameters, allowing those closures to provide multiple child views
     func overlayView(isEmpty: Bool) -> some View {
         if isEmpty {
-            EmptyPlaceholderView(text: "No saved articles", image: Image(systemName: "bookmark"))
+            EmptyPlaceholderView(text: Constant.phBookmarksText, image: Image(systemName: Constant.bookmarkIcon))
         }
     }
 }

@@ -13,7 +13,7 @@ struct NewsAPI {
     
     private init() {}
     
-    private let apiKey = "6088cdf5cc8744bb8331f36ebfa760c4"
+    private let apiKey = Constant.apiKey
     private let session = URLSession.shared
     
     // configuration for JSONDecoder
@@ -43,7 +43,7 @@ struct NewsAPI {
         
         // get HTTPURLResponse to hendle status codes
         guard let response = response as? HTTPURLResponse else {
-            throw generateErrore(description: "Bad Response")
+            throw generateErrore(description: Constant.responseError)
         }
         
         // get data from the API with different http status code
@@ -52,23 +52,23 @@ struct NewsAPI {
         // decode the data to NewsAPIResponse using json decoder
         case (200...299), (400...499):
             let apiResponse = try? jsonDecoder.decode(NewsAPIResponse.self, from: data)
-            if apiResponse?.status == "ok" {
+            if apiResponse?.status == Constant.responseSuccess {
                 // exclude articles that have been deleted
                 let filteredResponse = apiResponse?.articles?.filter { !$0.title.contains("[Removed]") }
                 return filteredResponse ?? []
             } else {
-                throw generateErrore(description: apiResponse?.message ?? "An error occured")
+                throw generateErrore(description: apiResponse?.message ?? Constant.generalError)
             }
         default:
             // for 5x errors - internal server error
-            throw generateErrore(description: "A server error occured")
+            throw generateErrore(description: Constant.serverError)
         }
     }
     
     // MARK: - Error description
     // helper method for the error description
     private func generateErrore(code: Int = 1, description: String) -> Error {
-        NSError(domain: "NewsAPI", code: code, userInfo: [NSLocalizedDescriptionKey: description])
+        NSError(domain: Constant.domainName, code: code, userInfo: [NSLocalizedDescriptionKey: description])
     }
     
     // MARK: - URLs

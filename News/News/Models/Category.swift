@@ -22,7 +22,7 @@ enum Category: String, CaseIterable {
     // to display the title for each category
     var text: String {
         if self == .general {
-            return "Top News"
+            return Constant.mainScreenTitle
         }
         // capitalize each word in the title
         return rawValue.capitalized

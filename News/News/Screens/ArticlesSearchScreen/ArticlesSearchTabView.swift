@@ -18,7 +18,7 @@ struct SearchTabView: View {
                             isFetchingNextPage: searchVM.isFetchingNextPage,
                             nextPageHandler: { await searchVM.loadNextPage() })
                 .overlay(overlayView)
-                .navigationTitle("Search")
+                .navigationTitle(Constant.searchScreenTitle)
         }
         .searchable(text: $searchVM.searchQuery)
         .onChange(of: searchVM.searchQuery, { _, newValue in
@@ -41,13 +41,14 @@ struct SearchTabView: View {
                     SearchHistoryListView(searchVM: searchVM) { newValue in
                         searchVM.searchQuery = newValue
                         search()
+                        hideKeyboard()
                     }
                 } else {
-                    EmptyPlaceholderView(text: "Type your query to search from NewsAPI", image: Image(systemName: "magnifyingglass"))
+                    EmptyPlaceholderView(text: Constant.phSearchText, image: Image(systemName: Constant.phSearchIcon))
                 }
                 
             case .success(let articles) where articles.isEmpty:
-                EmptyPlaceholderView(text: "No search results found", image: Image(systemName: "magnifyingglass"))
+                EmptyPlaceholderView(text: Constant.phErrorSearchText, image: Image(systemName: Constant.phSearchIcon))
                 
             case .failure(let error):
                 RetryView(text: error.localizedDescription, retryAction: search)
@@ -65,6 +66,10 @@ struct SearchTabView: View {
         Task.init {
             await searchVM.searchFirstPageArticles()
         }
+    }
+    
+    private func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }
 

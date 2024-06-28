@@ -12,12 +12,12 @@ struct EmptyPlaceholderView: View {
     let image: Image?
     
     var body: some View {
-        VStack(spacing: 8) {
+        VStack(spacing: Constant.phVStackSpacing) {
             Spacer()
             if let image = self.image {
                 image
                     .imageScale(.large)
-                    .font(.system(size: 52))
+                    .font(.system(size: Constant.phFontSize))
             }
             Text(text)
             Spacer()
@@ -26,5 +26,5 @@ struct EmptyPlaceholderView: View {
 }
 
 #Preview {
-    EmptyPlaceholderView(text: "No Bookmarks", image: Image(systemName: "bookmark"))
+    EmptyPlaceholderView(text: Constant.phBookmarksText, image: Image(systemName: Constant.bookmarkIcon))
 }

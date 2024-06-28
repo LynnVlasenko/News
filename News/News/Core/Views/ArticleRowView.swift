@@ -15,7 +15,7 @@ struct ArticleRowView: View {
     let article: Article
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
+        VStack(alignment: .leading, spacing: Constant.mainVStackSpacing) {
             
             // fetch image from URL-link using AsyncImage
             AsyncImage(url: article.imageURL) { phase in
@@ -24,11 +24,12 @@ struct ArticleRowView: View {
                 case .empty:
                     HStack {
                         Spacer()
-                        Image(systemName: "photo.fill")
+                        Image(systemName: Constant.photoPlaceholderIcon)
                             .imageScale(.large)
                         Spacer()
                     }
-                    .frame(minHeight: 200, maxHeight: 300)
+                    .frame(minHeight: Constant.articlePhotoMinHeight,
+                           maxHeight: Constant.articlePhotoMaxHeight)
                 case .success(let image):
                     GeometryReader { geometry in
                         image
@@ -38,36 +39,39 @@ struct ArticleRowView: View {
                 case .failure:
                     HStack {
                         Spacer()
-                        Image(systemName: "photo.fill")
+                        Image(systemName: Constant.photoPlaceholderIcon)
                             .imageScale(.large)
                         Spacer()
                     }
-                    .frame(minHeight: 200, maxHeight: 300)
+                    .frame(minHeight: Constant.articlePhotoMinHeight,
+                           maxHeight: Constant.articlePhotoMaxHeight)
                 @unknown default:
                     HStack {
                         Spacer()
-                        Image(systemName: "photo.fill")
+                        Image(systemName: Constant.photoPlaceholderIcon)
                             .imageScale(.large)
                         Spacer()
                     }
-                    .frame(minHeight: 200, maxHeight: 300)
+                    .frame(minHeight: Constant.articlePhotoMinHeight,
+                           maxHeight: Constant.articlePhotoMaxHeight)
                 }
             }
-            .background(Color.cyan.opacity(0.1))
+            .background(Color.cyan.opacity(Constant.photoBgOpacity))
             .clipped()
-            .frame(minHeight: 200, maxHeight: 300)
+            .frame(minHeight: Constant.articlePhotoMinHeight,
+                   maxHeight: Constant.articlePhotoMaxHeight)
             
-            VStack(alignment: .leading, spacing: 8) {
+            VStack(alignment: .leading, spacing: Constant.infoVStackSpacing) {
                 Text(article.title)
                     .font(.headline)
-                    .lineLimit(3)
+                    .lineLimit(Constant.titleLineLimit)
                 
                 Text(article.descriptionText)
                     .font(.subheadline)
-                    .lineLimit(2)
+                    .lineLimit(Constant.descrLineLimit)
                 HStack {
                     Text(article.captionText)
-                        .lineLimit(1)
+                        .lineLimit(Constant.captionLineLimit)
                         .foregroundColor(.secondary)
                         .font(.caption)
                     
@@ -78,8 +82,8 @@ struct ArticleRowView: View {
                     } label: {
                         Image(systemName:
                                 bookmarkedArticlesVM.isBookmarked(for: article)
-                              ? "bookmark.fill"
-                              : "bookmark")
+                              ? Constant.bookmarkFillIcon
+                              : Constant.bookmarkIcon)
                     }
                     .buttonStyle(.bordered)
                     .tint(Color.cyan)
@@ -87,7 +91,7 @@ struct ArticleRowView: View {
                     Button {
                         presentShareSheet(url: article.articleURL)
                     } label: {
-                        Image(systemName: "square.and.arrow.up")
+                        Image(systemName: Constant.saveArticleIcon)
                     }
                     .buttonStyle(.bordered)
                     .tint(Color.cyan)
@@ -97,7 +101,7 @@ struct ArticleRowView: View {
         }
         .background(Color.init(uiColor: .secondarySystemBackground))
         .border(Color.init(uiColor: .secondarySystemBackground))
-        .cornerRadius(25)
+        .cornerRadius(Constant.rowRadius)
         Spacer()
     }
     
@@ -120,7 +124,11 @@ struct ArticleRowView_Previews: PreviewProvider {
         NavigationView {
             List {
                 ArticleRowView(article: .previewData[0])
-                    .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
+                    .listRowInsets(.init(
+                        top: Constant.listRowInsetsTopBottom,
+                        leading: Constant.listRowInsetsleadingTrailing,
+                        bottom: Constant.listRowInsetsTopBottom,
+                        trailing: Constant.listRowInsetsleadingTrailing))
             }
             .listStyle(.plain)
         }

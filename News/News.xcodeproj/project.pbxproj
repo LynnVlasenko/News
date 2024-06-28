@@ -32,6 +32,7 @@
 		6C6680192C2462CE00B7700A /* View+ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6680182C2462CE00B7700A /* View+ShareSheet.swift */; };
 		6C66801B2C24818800B7700A /* EmptyPlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C66801A2C24818700B7700A /* EmptyPlaceholderView.swift */; };
 		6C66801D2C24825F00B7700A /* RetryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C66801C2C24825F00B7700A /* RetryView.swift */; };
+		6CA992CE2C2F1C4C001318EC /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CA992CD2C2F1C4C001318EC /* Constant.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,6 +63,7 @@
 		6C6680182C2462CE00B7700A /* View+ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+ShareSheet.swift"; sourceTree = "<group>"; };
 		6C66801A2C24818700B7700A /* EmptyPlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyPlaceholderView.swift; sourceTree = "<group>"; };
 		6C66801C2C24825F00B7700A /* RetryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetryView.swift; sourceTree = "<group>"; };
+		6CA992CD2C2F1C4C001318EC /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +90,7 @@
 			isa = PBXGroup;
 			children = (
 				6C0253022C2B05170048B1E5 /* DataFetchPhase.swift */,
+				6CA992CD2C2F1C4C001318EC /* Constant.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -325,6 +328,7 @@
 				6C6680122C244B9B00B7700A /* ArticleRowView.swift in Sources */,
 				6C66800A2C23214F00B7700A /* MainArticlesViewModel.swift in Sources */,
 				6C0253002C2AD59F0048B1E5 /* PagingData.swift in Sources */,
+				6CA992CE2C2F1C4C001318EC /* Constant.swift in Sources */,
 				6C66800C2C2326BD00B7700A /* MainArticlesTabView.swift in Sources */,
 				6C6680192C2462CE00B7700A /* View+ShareSheet.swift in Sources */,
 				6C667FE92C22F56600B7700A /* ContentView.swift in Sources */,

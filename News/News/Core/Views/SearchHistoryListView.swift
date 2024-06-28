@@ -16,10 +16,10 @@ struct SearchHistoryListView: View {
     var body: some View {
         List {
             HStack {
-                Text("Recently Searched")
+                Text(Constant.hstTitle)
                     .foregroundStyle(.secondary)
                 Spacer()
-                Button("Clear") {
+                Button(Constant.clearBtnText) {
                     searchVM.removeAllHistory()
                 }
                 .foregroundColor(Color.cyan)
@@ -34,7 +34,7 @@ struct SearchHistoryListView: View {
                     Button(role: .destructive) {
                         searchVM.removeHistory(history)
                     } label: {
-                        Label("Delete", systemImage: "trash")
+                        Label(Constant.deleteLbl, systemImage: Constant.deleteIcon)
                     }
                     .tint(Color.red)
                 }

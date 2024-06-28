@@ -13,18 +13,18 @@ struct RetryView: View {
     let retryAction: () -> ()
     
     var body: some View {
-        VStack(spacing: 8) {
+        VStack(spacing: Constant.retryMainVStackSpacing) {
             Text(text)
                 .font(.callout)
                 .multilineTextAlignment(.center)
             
             Button(action: retryAction) {
-                Text("Try again")
+                Text(Constant.retryBtnText)
             }
         }
     }
 }
 
 #Preview {
-    RetryView(text: "An error occured") {}
+    RetryView(text: Constant.generalError) {}
 }

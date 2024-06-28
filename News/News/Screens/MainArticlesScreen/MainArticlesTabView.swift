@@ -42,7 +42,7 @@ struct MainArticlesTabView: View {
             ProgressView()
             
             // show the PlaceholderView if we don't have any articles
-        case .success(let articles) where articles.isEmpty: EmptyPlaceholderView(text: "No Article received", image: Image(systemName: "doc.questionmark"))
+        case .success(let articles) where articles.isEmpty: EmptyPlaceholderView(text: Constant.phMainText, image: Image(systemName: Constant.phMainIcon))
         
         case .failure(let error):
             // the screen for trying to repeat the API request
@@ -63,7 +63,7 @@ struct MainArticlesTabView: View {
                 }
             }
         } label: {
-            Image(systemName: "line.3.horizontal.decrease")
+            Image(systemName: Constant.menuLine)
                 .imageScale(.large)
                 .tint(Color.cyan)
         }
