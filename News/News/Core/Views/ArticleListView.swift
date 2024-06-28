@@ -33,7 +33,11 @@ struct ArticleListView: View {
                     listRowView(for: article)
                 }
             }
-            .listRowInsets(.init(top: 0, leading: 16, bottom: 0, trailing: 16))
+            .listRowInsets(.init(
+                top: Constant.listRowInsetsTopBottom,
+                leading: Constant.listRowInsetsleadingTrailing,
+                bottom: Constant.listRowInsetsTopBottom,
+                trailing: Constant.listRowInsetsleadingTrailing))
             .listRowSeparator(.hidden)
             // represents a sheet using the given element as the data source for the sheet's content
             .sheet(item: $selectedArticle) {

@@ -12,7 +12,7 @@ class BookmarkedArticlesViewModel: ObservableObject {
     
     @Published private(set) var bookmarks: [Article] = []
     
-    private let bookmarkStore = PlistDataStore<[Article]>(filename: "bookmarks")
+    private let bookmarkStore = PlistDataStore<[Article]>(filename: Constant.bookmarkStoreFilename)
     
     static let shared = BookmarkedArticlesViewModel()
     
