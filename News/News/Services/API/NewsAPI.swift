@@ -13,7 +13,7 @@ struct NewsAPI {
     
     private init() {}
     
-    private let apiKey = Constant.apiKey
+    private let apiKey = ENV.serviceAPIKey
     private let session = URLSession.shared
     
     // configuration for JSONDecoder

@@ -20,3 +20,11 @@ struct NewsApp: App {
         }
     }
 }
+
+var ENV: APIKeyable {
+    #if DEBUG
+    return DebugENV()
+    #else
+    return ProdENV()
+    #endif
+}

@@ -82,6 +82,5 @@ enum Constant {
     static let clearBtnText: String = "Clear"
     static let deleteLbl: String = "Delete"
     
-    static let apiKey: String = "6088cdf5cc8744bb8331f36ebfa760c4"
     static let domainName: String = "NewsAPI"
 }
