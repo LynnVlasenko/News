@@ -33,6 +33,7 @@ enum Constant {
     static let articlePhotoMinHeight: CGFloat = 200.0
     static let articlePhotoMaxHeight: CGFloat = 300.0
     static let photoBgOpacity: Double = 0.1
+    static let photoTextOpacity: Double = 0.4
     
     // ArticleRow
     static let rowRadius: CGFloat = 25.0

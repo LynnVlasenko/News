@@ -24,8 +24,11 @@ struct ArticleRowView: View {
                 case .empty:
                     HStack {
                         Spacer()
-                        Image(systemName: Constant.photoPlaceholderIcon)
-                            .imageScale(.large)
+                        Text("No photo")
+                            .font(.largeTitle)
+                            .bold()
+                            .textCase(.uppercase)
+                            .foregroundStyle(.cyan.opacity(Constant.photoTextOpacity))
                         Spacer()
                     }
                     .frame(minHeight: Constant.articlePhotoMinHeight,
@@ -39,8 +42,11 @@ struct ArticleRowView: View {
                 case .failure:
                     HStack {
                         Spacer()
-                        Image(systemName: Constant.photoPlaceholderIcon)
-                            .imageScale(.large)
+                        Text("No photo")
+                            .font(.largeTitle)
+                            .bold()
+                            .textCase(.uppercase)
+                            .foregroundStyle(.cyan.opacity(Constant.photoTextOpacity))
                         Spacer()
                     }
                     .frame(minHeight: Constant.articlePhotoMinHeight,
