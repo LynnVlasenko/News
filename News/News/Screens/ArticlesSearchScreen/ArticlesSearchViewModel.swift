@@ -106,6 +106,7 @@ class ArticlesSearchViewModel: ObservableObject {
     private func cleanSearchQuery() {
         self.searchQuery = self.searchQuery.trimmingCharacters(in: .whitespacesAndNewlines)
     }
+
     // MARK: - History methods
     func addHistory(_ text: String) {
         if let index = history.firstIndex(where: { text.lowercased() == $0.lowercased() }) {
