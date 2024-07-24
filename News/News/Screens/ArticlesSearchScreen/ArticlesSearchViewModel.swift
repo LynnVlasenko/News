@@ -44,7 +44,9 @@ class ArticlesSearchViewModel: ObservableObject {
     func searchFirstPageArticles() async {
         
         if Task.isCancelled { return }
-        let searchQuery = self.searchQuery.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        cleanSearchQuery()
+        let searchQuery = self.searchQuery
        
         phase = .empty
         
@@ -88,7 +90,9 @@ class ArticlesSearchViewModel: ObservableObject {
     
     // load the data from API
     private func loadArticles(page: Int) async throws -> [Article] {
-        let searchQuery = self.searchQuery.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        cleanSearchQuery()
+        let searchQuery = self.searchQuery
         
         let articles = try await newsAPI.search(
             for: searchQuery,
@@ -99,6 +103,10 @@ class ArticlesSearchViewModel: ObservableObject {
         return articles
     }
     
+    private func cleanSearchQuery() {
+        self.searchQuery = self.searchQuery.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
     // MARK: - History methods
     func addHistory(_ text: String) {
         if let index = history.firstIndex(where: { text.lowercased() == $0.lowercased() }) {
